@@ -1,3 +1,3 @@
 export default function Sales() {
-  return <div>SalesTeam</div>;
+  return <div>Sales Jobs</div>;
 }
