@@ -17,10 +17,11 @@ async function getVideos(id: string) {
 }
 
 export default async function MovieDetail({
-    params: {id},
+    params,
 }: {
-    params: { id: string };
+    params: Promise<{ id: string }>;
 }) {
+    const { id } = await params;
     console.log('start fetching');
     const [movie, videos] = await Promise.all([getMovie(id), getVideos(id)]);
     console.log('end fetching');
