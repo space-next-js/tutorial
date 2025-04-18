@@ -1,28 +1,26 @@
-"use client"
+import Link from 'next/link';
 
-import { useState, useEffect } from 'react';
+export const metadata = {
+  title: 'Home',
+};
 
+// const API_URL = 'https://api.themoviedb.org/3/movie/popular?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US';
+export const API_URL = "https://nomad-movies.nomadcoders.workers.dev/movies";
 
-export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
-  const[movies, setMovies] = useState([]);
-  const getMovies = async () => {
-    const res = await fetch('https://api.themoviedb.org/3/movie/popular?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US');
-    const data = await res.json();
-    setMovies(data.results);
-  }
-  useEffect(() => {
-    getMovies();
-    setIsLoading(false);
-  }, []);
+async function getMovies() {
+  // 임의로 5초 대기
+  // await new Promise(resolve => setTimeout(resolve, 5000));
+  const res = await fetch(API_URL);
+  const data = await res.json();
+  return data;
+}
+
+export default async function HomePage() {
+  const movies = await getMovies();
   return <div>
-    <h1>Hello World</h1>
-    {isLoading && <div>Loading...</div>}
-    {movies && movies.map((movie: any) => (
-      <div key={movie.id}>
-        <h2>{movie.title}</h2>
-        <p>{movie.overview}</p>
-      </div>
-    ))}
-    </div>;
+    {movies.map(movie => <li key={movie.id}>
+      <Link href={`/movies/${movie.id}`}>{movie.title}</Link>
+      </li>)}
+    </div>
+
 }
