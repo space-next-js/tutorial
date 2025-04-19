@@ -1,0 +1,25 @@
+.container {
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.container h3 {
+    margin: 0 auto ;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.container img {
+    width: 100%;
+    height:100%;
+    object-fit: cover;
+}
+
+.container p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 400;
+}
