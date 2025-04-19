@@ -1,31 +1,23 @@
-import { API_URL } from "../../../(home)/page";
-
-async function getMovie(id: string) {
-    console.log(`Fetching movies: ${Date.now()}`);
-    await new Promise(resolve => setTimeout(resolve, 5000));
-    const res = await fetch(`${API_URL}/${id}`);
-    const data = await res.json();
-    return data;
-}
-
-async function getVideos(id: string) {
-    console.log(`Fetching videos: ${Date.now()}`);
-    await new Promise(resolve => setTimeout(resolve, 5000));
-    const res = await fetch(`${API_URL}/${id}/videos`);
-    const data = await res.json();
-    return data;
-}
+import { Suspense } from "react";
+import MovieInfo from "../../../../components/movie-info";
+import MovieVideos from "../../../../components/movie-videos";
 
 export default async function MovieDetail({
-    params,
+  params,
 }: {
-    params: Promise<{ id: string }>;
+  params: Promise<{ id: string }>;
 }) {
-    const { id } = await params;
-    console.log('start fetching');
-    const [movie, videos] = await Promise.all([getMovie(id), getVideos(id)]);
-    console.log('end fetching');
-    return <div>
-            <h1>{movie.title}</h1>
-        </div>;
+  const { id } = await params;
+  return (
+    <div>
+      <h3>Movie Deatil Page</h3>
+      <Suspense fallback={<h1>Loading movie info...</h1>}>
+        <MovieInfo id={id} />
+      </Suspense>
+      <h4>Videos</h4>
+      <Suspense fallback={<h1>Loading movie videos...</h1>}>
+        <MovieVideos id={id} />
+      </Suspense>
+    </div>
+  );
 }
